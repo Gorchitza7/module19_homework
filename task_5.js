@@ -1,60 +1,40 @@
 // Task 5
 
-class ElectroApp{
-    constructor(name, power){
-      this.name = name; // название прибора
-      this.power = power; // потребляемая мощность кВт/час
-      this.supply = 'off'; //вкл/выкл в розетку
+class HomeDevice {
+    constructor(type, color, capacity) {
+        this.voltage = '220v';
+        this.type = type;
+        this.color = color;
+        this.capacity = capacity;
     }
-    getPower(time){
-      if (this.supply == 'on') {
-        console.log(`Power is ${time*this.power} kW.`)
-      } else {
-        console.log(`Appliance ${this.name} is not supply!`)
-      }
+
+  getPowerOne = function (time) {
+        return `Устройство заработает через ${time} секунд после включения`
     }
-    onOff(){
-      if (this.supply == 'off') {
-        this.supply = 'on';
-      }
-      else {
-        this.supply = 'off';
-      }
-      console.log(`Supply is ${this.supply}`)
+};
+
+class KitchenDevice extends HomeDevice {
+  constructor(voltage, type, color, capacity, changeTime, changeCapacity) {
+        super(voltage);
+        this.type = type;
+        this.color = color;
+        this.capacity = capacity;
+        this.changeTime = changeTime;
+        this.changeCapacity = changeCapacity;
     }
-  }
   
-  class PersonalElectroApp extends ElectroApp{
-    constructor(name, power, monitor){
-      super(name, power);
-      this.monitor = monitor; //диагональ монитора
+    getPowerOne = function (time) {
+        return `Прибор включится через ${time} секунд, после нажатия кнопки`
     }
-  }
-  
-  class HeatElectroApp extends ElectroApp{
-    constructor(name, power, efficiency){
-      super(name, power);
-      this.efficiency = efficiency; //кпд прибора в %
-    }
-    getPower(time){
-      if (this.supply == 'on') {
-        console.log(`Power is ${time*this.power*this.efficiency/100} kW.`)
-      } else {
-        console.log(`Appliance ${this.name} is not supply!`)
-      }
-    }
-  }
-  
-  const computer = new PersonalElectroApp('HP',0.5, 17);
-  console.log(computer)
-  computer.onOff() //включаем
-  computer.getPower(5) //считаем потребленную мощность за 5 часов
-  computer.onOff()// выключаем
-  computer.getPower(5) //снова патаемся посчитать мощность
-  
-  const heater = new HeatElectroApp('Ballu', 2, 90);
-  console.log(heater)
-  heater.onOff() //включаем
-  heater.getPower(5) //считаем отданную мощность за 5 часов
-  heater.onOff()// выключаем
-  heater.getPower(5) //снова патаемся посчитать мощность
+};
+
+const kettle = new KitchenDevice('Чайник', 'Красный', '1800 Вт', '5 секунд', '1500 Вт');
+const mixer = new KitchenDevice('Миксер', 'Серебристый', '1200 Вт', '3 секунды', '1100 Вт');
+const hoover = new HomeDevice('Пылесос', 'Синий', '2000 Вт');
+
+console.log(kettle);
+console.log(kettle.getPowerOne(5));
+console.log(mixer);
+console.log(mixer.getPowerOne(3));
+console.log(hoover);
+console.log(hoover.getPowerOne(0));
